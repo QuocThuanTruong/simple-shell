@@ -25,23 +25,34 @@ void parse_cmd(char *cmd, char **args_1, int *op_code, char **args_2)
 
     for (i = 0; i < count_args; ++i) {
         if (strcmp(args[i], "&") == 0) {
+
             *op_code = OP_CODE_RUN_BG;
             flag_append_args1 = false;
-          
+
         } else if(strcmp(args[i], ">") == 0) {
+
             *op_code = OP_CODE_RE_TO_FILE;
             flag_append_args1 = false;
+
         } else if (strcmp(args[i], "<") == 0) {
+
             *op_code = OP_CODE_RE_FROM_FILE;
             flag_append_args1 = false;
+
         } else if (strcmp(args[i], "|") == 0) {
+
             *op_code = OP_CODE_PIPE;
             flag_append_args1 = false;
+
         } else {
             if (flag_append_args1) {
+
                 args_1[count_args_1++] = args[i];
+
             } else {
+
                 args_2[count_args_2++] = args[i];
+                
             }
         }
     }

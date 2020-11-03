@@ -77,6 +77,7 @@ int main()
                         do_children_re_from_file(args_1, args_2[0]);
                         break;
                     case OP_CODE_PIPE:
+                        do_children_pipe(args_1, args_2);
                         break;
                     default:
                         //When input cmd does not have op code
