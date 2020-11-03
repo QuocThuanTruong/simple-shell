@@ -24,7 +24,7 @@ int main()
 {
     int should_run = 1;                 //Flag to determine when to exit program: 0 - exit, 1 - run
     int wait = 0;                       //Flag parent process wait for child process
-    int op_code = -1;                   //Operation code get from input cmd
+    int op_code = NO_OP_CODE;                   //Operation code get from input cmd
 
     char input_cmd[CMD_LENGTH];         
     char *args_1[CMD_LENGTH];
@@ -54,7 +54,7 @@ int main()
         //Asume that input cmd is "ls | sort"
         args_1[0] = "ls";
         args_1[1] = '\0';
-        op_code = -1;
+        op_code = NO_OP_CODE;
         args_2[0] = "sort";
         //-
 
