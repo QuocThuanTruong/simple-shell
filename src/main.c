@@ -52,13 +52,9 @@ int main()
         
         //TODO: Parse input cmd here
         //Asume that input cmd is "ls | sort"
-        args_1[0] = "ls";
-        args_1[1] = '\0';
         op_code = NO_OP_CODE;
-        args_2[0] = "sort";
-        //-
-
-
+        parse_cmd(input_cmd, args_1, &op_code, args_2);
+        
         //fork() process
         pid_t pid = fork();
 
