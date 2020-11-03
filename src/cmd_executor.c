@@ -13,14 +13,14 @@ void do_parent(pid_t child_pid, int wait)
 {
     static int bg_proc_counter = 0;
     int child_status;
-    
+
     switch (wait) {
-        // parent and child run concurrently, normal case.
+        // parent and child run concurrently
         case 0: {
             waitpid(child_pid, &child_status, 0);
             break;
         }
-        // parrent wait for child - when child terminated, parent rev and rerun.
+        // parrent wait for child
         // case '&' | run in background.
         default:
             bg_proc_counter += 1;
@@ -31,7 +31,7 @@ void do_parent(pid_t child_pid, int wait)
             if (WIFEXITED(child_status))
             {
                 bg_proc_counter -=1;
-                printf("[%d] is finished and exited with status %d\n", child_pid, status);
+                printf("[%d] is finished and exited with status %d\n", child_pid, child_status);
             }
             break;
     }

@@ -15,6 +15,7 @@
 #include "cmd_parser.h"
 #include "history.h"
 
+#define NO_OP_CODE                      -1
 #define OP_CODE_UNKNOWN                 0
 #define OP_CODE_RUN_BG                  1
 #define OP_CODE_RE_TO_FILE              2
