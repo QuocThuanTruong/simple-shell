@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
+#define NO_OP_CDE                       0
 #define OP_CODE_RUN_BG                  1
 #define OP_CODE_RE_TO_FILE              2
 #define OP_CODE_RE_FROM_FILE            3
