@@ -54,7 +54,11 @@ int main()
         //Asume that input cmd is "ls | sort"
         op_code = NO_OP_CODE;
         parse_cmd(input_cmd, args_1, &op_code, args_2);
-        
+
+        if (op_code == OP_CODE_RUN_BG) {
+            wait = 1;
+        }
+
         //fork() process
         pid_t pid = fork();
 
@@ -66,22 +70,29 @@ int main()
                 //Check op code
                 switch (op_code)
                 {
-                    case OP_CODE_RUN_BG:
                     case OP_CODE_RE_TO_FILE:
+                        do_children_re_to_file(args_1, args_2[0]);
+                        break;
                     case OP_CODE_RE_FROM_FILE:
+                        do_children_re_from_file(args_1, args_2[0]);
+                        break;
                     case OP_CODE_PIPE:
+                        break;
                     default:
                         //When input cmd does not have op code
                         pass_children_execution(args_1[0], args_1);
                         break;
                 }
+
                 exit(EXIT_FAILURE);
                 break;
-            default:    //Successfull to fork, and in parent process
+            default: //Successfull to fork, and in parent process
                 //do parent
                 do_parent(pid, wait);
                 break;
         }
+
+        wait = 0;
     }
 
     return 0;

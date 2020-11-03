@@ -1,0 +1,6 @@
+bin
+include
+Makefile
+README.md
+src
+test.txt

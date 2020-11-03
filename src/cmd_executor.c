@@ -36,3 +36,58 @@ void do_parent(pid_t child_pid, int wait)
             break;
     }
 }
+
+void do_children_re_to_file(char **args, char *dir)
+{
+    int file_descriptor;
+
+    file_descriptor = creat(dir, S_IRWXU);
+
+    if (file_descriptor == -1)
+    {
+        perror(ERROR_MESS);
+        exit(EXIT_FAILURE);
+    }
+
+    //Duplicate fd to std out
+    dup2(file_descriptor, STDOUT_FILENO);
+
+    if (close(file_descriptor) == -1)
+    {
+        perror(ERROR_MESS);
+        exit(EXIT_FAILURE);
+    }
+
+    //Execution after duplicate fd
+    pass_children_execution(args[0], args);
+}
+
+void do_children_re_from_file(char **args, char *dir)
+{
+    int file_descriptor;
+
+    file_descriptor = open(dir, O_RDONLY);
+
+    if (file_descriptor == -1)
+    {
+        perror(ERROR_MESS);
+        exit(EXIT_FAILURE);
+    }
+
+    //Duplicate fd to std in
+    dup2(file_descriptor, STDIN_FILENO);
+
+    if (close(file_descriptor) == -1)
+    {
+        perror(ERROR_MESS);
+        exit(EXIT_FAILURE);
+    }
+
+    //Execution after duplicate fd
+    pass_children_execution(args[0], args);
+}
+
+void do_children_pipe(char **args_pipe_write, char **args_pipe_read)
+{
+    
+}
