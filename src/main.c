@@ -53,9 +53,10 @@ int main()
         //TODO: Parse input cmd here
         //Asume that input cmd is "ls | sort"
         args_1[0] = "ls";
-        args_1[1] = '\0';
-        op_code = NO_OP_CODE;
-        args_2[0] = "sort";
+        args_1[1] = "-l";
+        args_1[2] = '\0';
+        op_code = OP_CODE_RE_TO_FILE;
+        args_2[0] = "abc.txt";
         //-
 
 
@@ -72,13 +73,19 @@ int main()
                 {
                     case OP_CODE_RUN_BG:
                     case OP_CODE_RE_TO_FILE:
+                        do_children_re_to_file(args_1, args_2[0]);
+                        break;
                     case OP_CODE_RE_FROM_FILE:
+                        do_children_re_from_file(args_1, args_2[0]);
+                        break;
                     case OP_CODE_PIPE:
+                        break;
                     default:
                         //When input cmd does not have op code
                         pass_children_execution(args_1[0], args_1);
                         break;
                 }
+
                 exit(EXIT_FAILURE);
                 break;
             default:    //Successfull to fork, and in parent process
