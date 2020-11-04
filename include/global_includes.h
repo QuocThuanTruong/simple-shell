@@ -12,7 +12,7 @@
 #include <stddef.h>
 #include <sys/stat.h>
 
-#include "cmd_history.h"
+#include "history.h"
 #include "cmd_executor.h"
 #include "cmd_parser.h"
 

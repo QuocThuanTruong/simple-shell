@@ -1,4 +1,4 @@
-#ifdef _HISTORY_H_
+#ifndef _HISTORY_H_
 #define _HISTORY_H_
 
 #include "global_includes.h"

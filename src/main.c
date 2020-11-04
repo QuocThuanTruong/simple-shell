@@ -1,6 +1,6 @@
 #include "global_includes.h"
 
-int get_input_cmd(char* input_cmd)
+static int get_input_cmd(char* input_cmd)
 {
     int is_get_ok = 1;
 
@@ -24,7 +24,7 @@ int main()
 {
     int should_run = 1;                 //Flag to determine when to exit program: 0 - exit, 1 - run
     int wait = 0;                       //Flag parent process wait for child process
-    int op_code = NO_OP_CODE;                   //Operation code get from input cmd
+    int op_code = NO_OP_CODE;           //Operation code get from input cmd
 
     char input_cmd[CMD_LENGTH];         
     char *args_1[CMD_LENGTH];
@@ -57,11 +57,10 @@ int main()
             char *cmd_in_hist = get_history_at(history_list, history_size, hist_index);
        
             if (cmd_in_hist != NULL)
-            {
-                
+            {              
                 strcpy(input_cmd, cmd_in_hist);
                 printf("%s%s\n", SHELL_NAME, cmd_in_hist);
-                fflush(stdout);
+                fflush(stdout);   
             } 
             else
             {
@@ -69,7 +68,12 @@ int main()
                 fflush(stdout);
                 continue;
             }
+        }
 
+        if (history_size > 0 && strcmp(history_list[history_size - 1], "history") == 0 && strcmp(input_cmd, "history") == 0)
+        {
+            printf("\033[1A\033[1;\033[K");
+            continue;
         }
 
         append_to_history_list(history_list, input_cmd, &history_size);
@@ -81,15 +85,17 @@ int main()
         if (op_code == OP_CODE_RUN_BG) {
             wait = 1;
         } 
+        else if (op_code == NO_OP_CODE)
+        {
+            if (strcmp(input_cmd, "history") == 0)
+            {
+                do_history(args_1, history_list, &history_size);             
+                continue;
+            }
+        }
         else if (op_code == OP_CODE_UNKNOWN)
         {
             perror("Invalid syntax: ");
-        }
-
-        if (strcmp(input_cmd, "history") == 0)
-        {
-            do_history(args_1, history_list, &history_size);
-            continue;
         }
 
         //fork() process
@@ -115,6 +121,7 @@ int main()
                     default:
                         //When input cmd does not have op code
                         pass_children_execution(args_1[0], args_1);
+                        wait = 1;
                         break;
                 }
 

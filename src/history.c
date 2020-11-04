@@ -55,7 +55,7 @@ void show_history_list(char **history_list, int history_size)
     {
         for(int i = 0; i < history_size; i++)
         {
-            printf ("    %d  %s\n", i + 1, history_list[i]);
+            printf ("%4d  %s\n", i + 1, history_list[i]);
         }
     }
 }
@@ -70,7 +70,7 @@ char *get_history_at(char **history_list, int history_size, int index)
     return history_list[index];  
 }
 
-int parse_to_int(char *index_string)
+static int parse_to_int(char *index_string)
 {
     for (int i = 0; i < strlen(index_string); i++)
     {
