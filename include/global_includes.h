@@ -12,6 +12,10 @@
 #include <stddef.h>
 #include <sys/stat.h>
 
+#include "cmd_history.h"
+#include "cmd_executor.h"
+#include "cmd_parser.h"
+
 #define NO_OP_CODE                      -1
 #define OP_CODE_UNKNOWN                 0
 #define OP_CODE_RUN_BG                  1
