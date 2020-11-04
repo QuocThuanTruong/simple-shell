@@ -1,4 +1,4 @@
-#include "history.h"
+#include "cmd_history.h"
 
 void aloc_history_list(char **history_list)
 {
