@@ -129,3 +129,33 @@ void do_children_pipe(char **args_pipe_write, char **args_pipe_read)
     wait(0);
     wait(0);
 }
+
+void do_history(char **args, char **history_list, int *history_size)
+{
+    int args_counter = 0;
+
+    while (args[args_counter] != NULL)
+    {
+        args_counter++;
+    }
+
+    //Exclude arg "history"
+    args_counter--;
+
+    if (args_counter == 0)
+    {
+        show_history_list(history_list, *history_size);
+    } 
+    else if (args_counter == 1)
+    {
+        if (strcmp(args[1], "-c") == 0 || strcmp(args[1], "--clear") == 0)
+        {
+            *history_size = 0;
+            printf("History has cleared\n");
+        }
+    }
+    else
+    {
+        perror("To many arguments for history command");
+    }
+}

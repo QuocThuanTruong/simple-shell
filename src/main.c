@@ -31,6 +31,8 @@ int main()
     char *args_2[CMD_LENGTH];
 
     char **history_list = (char**) malloc(HISTORY_SIZE * sizeof(char*));
+    int history_size = 0;
+    aloc_history_list(history_list);
 
     while (should_run)
     {
@@ -48,15 +50,46 @@ int main()
             should_run = 0;
             continue;
         }
-        
-        
+
+        if (input_cmd[0] == '!')
+        {
+            int hist_index = is_valid_history_cmd(input_cmd, history_size);
+            char *cmd_in_hist = get_history_at(history_list, history_size, hist_index);
+       
+            if (cmd_in_hist != NULL)
+            {
+                
+                strcpy(input_cmd, cmd_in_hist);
+                printf("%s%s\n", SHELL_NAME, cmd_in_hist);
+                fflush(stdout);
+            } 
+            else
+            {
+                printf("%s : Invalid Command\n", input_cmd);
+                fflush(stdout);
+                continue;
+            }
+
+        }
+
+        append_to_history_list(history_list, input_cmd, &history_size);
+           
         //TODO: Parse input cmd here
-        //Asume that input cmd is "ls | sort"
         op_code = NO_OP_CODE;
         parse_cmd(input_cmd, args_1, &op_code, args_2);
 
         if (op_code == OP_CODE_RUN_BG) {
             wait = 1;
+        } 
+        else if (op_code == OP_CODE_UNKNOWN)
+        {
+            perror("Invalid syntax: ");
+        }
+
+        if (strcmp(input_cmd, "history") == 0)
+        {
+            do_history(args_1, history_list, &history_size);
+            continue;
         }
 
         //fork() process
@@ -95,6 +128,8 @@ int main()
 
         wait = 0;
     }
+
+    free_history_list(history_list);
 
     return 0;
 }
