@@ -12,7 +12,7 @@ void free_history_list(char **history_list)
 {
     for(int i = 0;i < HISTORY_SIZE; i++)
     {
-        if(history_list != NULL)
+        if(history_list[i] != NULL)
         {
             free(history_list[i]);
         }
@@ -53,7 +53,7 @@ void show_history_list(char **history_list, int history_size)
     {
         for(int i = 0; i < history_size; i++)
         {
-            printf ("%s\n", history_list[i]);
+            printf ("%d %s\n", i + 1, history_list[i]);
         }
     }
 }
