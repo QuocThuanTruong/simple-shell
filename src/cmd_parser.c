@@ -6,7 +6,7 @@ void parse_cmd(char *cmd, char **args_1, int *op_code, char **args_2)
     memset(args_2, 0, CMD_LENGTH);
 
     char* args[CMD_LENGTH];
-    memset(args, 0, CMD_LENGTH);
+    memset(args, 0, CMD_LENGTH + 1);
 
     int count_args = 0;
     const char* delimiters  = {" "};
