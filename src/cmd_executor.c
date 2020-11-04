@@ -89,5 +89,43 @@ void do_children_re_from_file(char **args, char *dir)
 
 void do_children_pipe(char **args_pipe_write, char **args_pipe_read)
 {
-    
+    //create pipe
+    int pipes[2];
+    if (pipe(pipes) == -1) {
+        perror("Error: pipe not created");
+        exit(EXIT_FAILURE);
+    }
+
+    //children write into pipe
+    pid_t write_pid = fork();
+    if (write_pid == 0) {
+        dup2(pipes[1], STDOUT_FILENO);
+
+        //close read pipe
+        if (close(pipes[0]) == -1) {
+            perror("Unexpected error when closing read pipe");
+        }
+
+        pass_children_execution(args_pipe_write[0], args_pipe_write);
+    }
+
+    //children read from pipe
+    pid_t read_pid = fork();
+    if (read_pid == 0) {
+        dup2(pipes[0], STDIN_FILENO);
+
+        //close write pipe
+        if (close(pipes[1]) == -1) {
+            perror("Uexpected error when closing write pipe");
+        }
+
+        pass_children_execution(args_pipe_read[0], args_pipe_read);
+    }
+
+    close(pipes[1]);
+    close(pipes[0]);
+
+    //waiting for write and read child finish
+    wait(0);
+    wait(0);
 }

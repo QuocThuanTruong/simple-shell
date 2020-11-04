@@ -52,13 +52,12 @@ int main()
         
         //TODO: Parse input cmd here
         //Asume that input cmd is "ls | sort"
-        args_1[0] = "ls";
-        args_1[1] = "-l";
-        args_1[2] = '\0';
-        op_code = OP_CODE_RE_TO_FILE;
-        args_2[0] = "abc.txt";
-        //-
+        op_code = NO_OP_CODE;
+        parse_cmd(input_cmd, args_1, &op_code, args_2);
 
+        if (op_code == OP_CODE_RUN_BG) {
+            wait = 1;
+        }
 
         //fork() process
         pid_t pid = fork();
@@ -71,7 +70,6 @@ int main()
                 //Check op code
                 switch (op_code)
                 {
-                    case OP_CODE_RUN_BG:
                     case OP_CODE_RE_TO_FILE:
                         do_children_re_to_file(args_1, args_2[0]);
                         break;
@@ -79,6 +77,7 @@ int main()
                         do_children_re_from_file(args_1, args_2[0]);
                         break;
                     case OP_CODE_PIPE:
+                        do_children_pipe(args_1, args_2);
                         break;
                     default:
                         //When input cmd does not have op code
@@ -88,11 +87,13 @@ int main()
 
                 exit(EXIT_FAILURE);
                 break;
-            default:    //Successfull to fork, and in parent process
+            default: //Successfull to fork, and in parent process
                 //do parent
                 do_parent(pid, wait);
                 break;
         }
+
+        wait = 0;
     }
 
     return 0;
