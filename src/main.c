@@ -1,4 +1,6 @@
-#include "global_includes.h"
+#include "cmd_executor.h"
+#include "cmd_parser.h"
+#include "history.h"
 
 int get_input_cmd(char* input_cmd)
 {

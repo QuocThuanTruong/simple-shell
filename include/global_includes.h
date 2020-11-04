@@ -9,11 +9,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <fcntl.h>
+#include <stddef.h>
 #include <sys/stat.h>
-
-#include "cmd_executor.h"
-#include "cmd_parser.h"
-#include "history.h"
 
 #define NO_OP_CODE                      -1
 #define OP_CODE_UNKNOWN                 0
@@ -30,5 +27,6 @@
 
 #define ERROR_MESS                      "Error: "
 #define INVALID_INPUT                   "Invalid input!"
+#define HISTORY_EMPTY_MESS              "No commands in history.\n"
 
 #endif // !_GLOBAL_INCLUDES_

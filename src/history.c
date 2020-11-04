@@ -1,4 +1,5 @@
 #include "history.h"
+#include "global_includes.h"
 
 void aloc_history_list(char **history_list)
 {
@@ -10,7 +11,7 @@ void aloc_history_list(char **history_list)
 
 void free_history_list(char **history_list)
 {
-    for(int i = 0;i < HISTORY_SIZE; i++)
+    for(int i = 0; i < HISTORY_SIZE; i++)
     {
         if(history_list[i] != NULL)
         {
@@ -21,25 +22,25 @@ void free_history_list(char **history_list)
 
 void append_to_history_list(char **history_list, const char* current_cmd, int *history_size)
 {
-    if(history_size != 0)
+    if(*history_size != 0)
     {
-        if(strcmp(current_cmd, history_list[history_size - 1]) == 0)
+        if(strcmp(current_cmd, history_list[*history_size - 1]) == 0)
         {
             return;
         }
     }
-    else if(history_size < HISTORY_SIZE)
+    else if(*history_size < HISTORY_SIZE)
     {
-        strcpy(history_list[history_size], current_cmd);
-        history_size++;
+        strcpy(history_list[*history_size], current_cmd);
+        (*history_size)++;
     }
     else 
     {
-        for(int i = 0; i < history_size; i++)
+        for(int i = 0; i < *history_size; i++)
         {
             strcpy(history_list[i- 1], history_list[i]);
         }
-        strcpy(history_list[history_size - 1], current_cmd);
+        strcpy(history_list[*history_size - 1], current_cmd);
     }
 }
 
@@ -47,7 +48,7 @@ void show_history_list(char **history_list, int history_size)
 {
     if(history_size == 0)
     {
-        printf("history list is empty\n");
+        printf("%s", HISTORY_EMPTY_MESS);
     }
     else
     {
@@ -64,8 +65,6 @@ char *get_history_at(char **history_list, int history_size, int index)
     {
         return NULL;
     }
-    else
-    {
-        return history_list[index];
-    }
+    
+    return history_list[index];  
 }

@@ -1,5 +1,5 @@
 #ifdef _HISTORY_H_
-#define_HISTORY_H_
+#define _HISTORY_H_
 
 #include "global_includes.h"
 
@@ -14,4 +14,4 @@ void show_history_list(char **history_list, int history_size);
 char *get_history_at(char **history_list, int history_size, int index);
 
 
-#endif // _HISTORY_H_
+#endif // !_HISTORY_H_
