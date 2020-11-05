@@ -18,6 +18,7 @@ OBJ	:=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 #Automatic add header dependencies and rebuilt only the file header that changed
 #If source changed make file will rebuilt all
 CPPFLAGS	:=	-Iinclude	-MMD	-MP
+CFLAGS	:=	-Wall
 
 #Prevent duplicated name in other directory
 .PHONY:	all	clean
@@ -30,7 +31,7 @@ $(EXE):	$(OBJ)	|	$(BIN_DIR)
 
 #Complie each source file to corressponding obj file (create obj dir if not exists)
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c	|	$(OBJ_DIR)
-	$(CC)	$(CPPFLAGS)	-c	$<	-o	$@
+	$(CC)	$(CPPFLAGS)	$(CFLAGS)	-c	$<	-o	$@
 
 #Create bin dir and obj dir
 $(BIN_DIR)	$(OBJ_DIR):

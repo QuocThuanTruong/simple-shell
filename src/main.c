@@ -58,8 +58,12 @@ int main()
        
             if (cmd_in_hist != NULL)
             {              
+                if (strcmp(cmd_in_hist, "history") != 0)
+                {
+                    printf("%s%s\n", SHELL_NAME, cmd_in_hist);
+                }
+                
                 strcpy(input_cmd, cmd_in_hist);
-                printf("%s%s\n", SHELL_NAME, cmd_in_hist);
                 fflush(stdout);   
             } 
             else
@@ -70,7 +74,9 @@ int main()
             }
         }
 
-        if (history_size > 0 && strcmp(history_list[history_size - 1], "history") == 0 && strcmp(input_cmd, "history") == 0)
+        //Clear current command if user entered "history" and the last command in history list is also "history"
+        if (history_size > 0 && strcmp(history_list[history_size - 1], "history") == 0 && 
+        (strcmp(input_cmd, "history") == 0))
         {
             printf("\033[1A\033[1;\033[K");
             continue;
