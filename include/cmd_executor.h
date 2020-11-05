@@ -2,7 +2,6 @@
 #define _CMD_EXECUTOR_H
 
 #include "global_includes.h"
-#include "history.h"
 
 //Forwarding cmd argument when it does not have redirect or pipe operator
 void pass_children_execution(char* filename, char *argv[]);
