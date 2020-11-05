@@ -23,7 +23,7 @@ void do_parent(pid_t child_pid, int is_waiting)
             bg_proc_counter += 1;
 
             printf("[%d] %d\n",bg_proc_counter,child_pid);
-            waitpid(child_pid, &child_status, WNOHANG);
+            waitpid(child_pid, &child_status, WUNTRACED);
 
             if (WIFEXITED(child_status))
             {

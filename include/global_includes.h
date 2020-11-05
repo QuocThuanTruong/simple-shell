@@ -12,9 +12,9 @@
 #include <stddef.h>
 #include <sys/stat.h>
 
-#include "history.h"
 #include "cmd_executor.h"
 #include "cmd_parser.h"
+#include "history.h"
 
 #define NO_OP_CODE                      -1
 #define OP_CODE_UNKNOWN                 0
