@@ -9,30 +9,28 @@ void pass_children_execution(char* filename, char *argv[])
     }
 }
 
-void do_parent(pid_t child_pid, int wait)
+void do_parent(pid_t child_pid, int is_waiting)
 {
     static int bg_proc_counter = 0;
     int child_status;
 
-    switch (wait) {
-        // parent and child run concurrently
-        case 0: {
+    switch (is_waiting) {
+        case 1: 
             waitpid(child_pid, &child_status, 0);
             break;
-        }
-        // parrent wait for child
-        // case '&' | run in background.
+        //Simulating do child process in background
         default:
             bg_proc_counter += 1;
 
             printf("[%d] %d\n",bg_proc_counter,child_pid);
-            //waitpid(child_pid, &child_status, WUNTRACED);
+            waitpid(child_pid, &child_status, WUNTRACED);
 
             if (WIFEXITED(child_status))
             {
+                printf("[%d] Done\n", bg_proc_counter);
                 bg_proc_counter -=1;
-                printf("[%d] is finished and exited with status %d\n", child_pid, child_status);
-            }
+            } 
+
             break;
     }
 }
