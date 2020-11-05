@@ -1,5 +1,4 @@
 #include "cmd_parser.h"
-#include <string.h>
 
 void parse_cmd(char *cmd, char **args_1, int *op_code, char **args_2)
 {
