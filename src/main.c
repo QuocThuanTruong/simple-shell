@@ -23,7 +23,7 @@ static int get_input_cmd(char* input_cmd)
 int main()
 {
     int should_run = 1;                 //Flag to determine when to exit program: 0 - exit, 1 - run
-    int wait = 0;                       //Flag parent process wait for child process
+    int is_waiting = 1;                       //Flag parent process is_waiting for child process
     int op_code = NO_OP_CODE;           //Operation code get from input cmd
 
     char input_cmd[CMD_LENGTH];         
@@ -83,7 +83,7 @@ int main()
         parse_cmd(input_cmd, args_1, &op_code, args_2);
 
         if (op_code == OP_CODE_RUN_BG) {
-            wait = 1;
+            is_waiting = 0;
         } 
         else if (op_code == NO_OP_CODE)
         {
@@ -121,7 +121,6 @@ int main()
                     default:
                         //When input cmd does not have op code
                         pass_children_execution(args_1[0], args_1);
-                        wait = 1;
                         break;
                 }
 
@@ -129,11 +128,11 @@ int main()
                 break;
             default: //Successfull to fork, and in parent process
                 //do parent
-                do_parent(pid, wait);
+                do_parent(pid, is_waiting);
                 break;
         }
 
-        wait = 0;
+        is_waiting = 1;
     }
 
     free_history_list(history_list);

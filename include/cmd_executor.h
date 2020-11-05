@@ -5,7 +5,7 @@
 
 //Forwarding cmd argument when it does not have redirect or pipe operator
 void pass_children_execution(char* filename, char *argv[]);
-void do_parent(pid_t child_pid, int wait);
+void do_parent(pid_t child_pid, int is_waiting);
 
 //Pipe op
 void do_children_pipe(char **args_pipe_write, char **args_pipe_read);

@@ -21,6 +21,7 @@ void free_history_list(char **history_list)
 
 void append_to_history_list(char **history_list, const char* current_cmd, int *history_size)
 {
+    //Not Appending if current cmd has already existed in history
     if(*history_size != 0)
     {
         if(strcmp(current_cmd, history_list[*history_size - 1]) == 0)
@@ -36,6 +37,7 @@ void append_to_history_list(char **history_list, const char* current_cmd, int *h
     }
     else 
     {
+        //Shift the history list to the left and append cmd when it's size reaches maximum
         for(int i = 0; i < *history_size; i++)
         {
             strcpy(history_list[i- 1], history_list[i]);
