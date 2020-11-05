@@ -1,4 +1,4 @@
-#ifdef _HISTORY_H_
+#ifndef _HISTORY_H_
 #define _HISTORY_H_
 
 #include "global_includes.h"
@@ -15,4 +15,4 @@ char *get_history_at(char **history_list, int history_size, int index);
 
 int is_valid_history_cmd(char* his_cmd, int history_size);
 
-#endif // !_HISTORY_H_
+#endif // !_CMD_HISTORY_H_
