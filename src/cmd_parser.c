@@ -1,9 +1,18 @@
 #include "cmd_parser.h"
 
+void copy_cmd(char* dest, char* src, int start, int count) {
+    int i;
+    for (i = 0; i < count; ++i) {
+        dest[i] = src[start + i];
+    }
+}
+
 void parse_cmd(char *cmd, char **args_1, int *op_code, char **args_2)
 {
     memset(args_1, 0, CMD_LENGTH + 1);
     memset(args_2, 0, CMD_LENGTH + 1);
+
+    const char* delimiters  = {" \"\'\\"};
 
     int i;
     int len_cmd = strlen(cmd);
@@ -30,39 +39,29 @@ void parse_cmd(char *cmd, char **args_1, int *op_code, char **args_2)
 
             *op_code = OP_CODE_PIPE;
             break;
-
         }
     }
 
-    char* args[CMD_LENGTH];
-    memset(args, 0, CMD_LENGTH + 1);
-
-    int count_args = 0;
-    const char* delimiters  = {" &><|"};
-
-    char* token = strtok(cmd, delimiters);
-    while (token != NULL) {
-        args[count_args++] = token;
-        token = strtok(NULL, delimiters);
-    }
+    char args_1_cmd[CMD_LENGTH];
+    memset(args_1_cmd, 0, CMD_LENGTH + 1);
+    copy_cmd(args_1_cmd, cmd, 0, i);
 
     int count_args_1 = 0;
-    int count_args_2 = 0;
-   
-    if (args[0] != NULL) {
-        args_1[count_args_1++] = args[0];
-    }
-    
-    for (i = 1; i < count_args; ++i) {
-        if (args[i][0] != '-') {
-            break;
-        } else {
-            args_1[count_args_1++] = args[i];
-        }
+    char* token_1 = strtok(args_1_cmd, delimiters);
+    while (token_1 != NULL) {
+        args_1[count_args_1++] = token_1;
+        token_1 = strtok(NULL, delimiters);
     }
 
-    for (; i < count_args; ++i) {
-        args_2[count_args_2++] = args[i];
+    char args_2_cmd[CMD_LENGTH]; 
+    memset(args_2_cmd, 0, CMD_LENGTH + 1);
+    copy_cmd(args_2_cmd, cmd, i + 1, len_cmd - i - 1);
+
+    int count_args_2 = 0;
+    char* token_2 = strtok(args_2_cmd, delimiters);
+    while (token_2 != NULL) {
+        args_2[count_args_2++] = token_2;
+        token_2 = strtok(NULL, delimiters);
     }
 
     if (*op_code != NO_OP_CODE && *op_code != OP_CODE_RUN_BG && count_args_2 == 0) {
